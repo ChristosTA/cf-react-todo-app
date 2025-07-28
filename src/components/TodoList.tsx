@@ -1,4 +1,4 @@
-import {Edit, Save, Trash2, X} from "lucide-react";
+import {CheckSquare, Edit, Save, Square, Trash2, X} from "lucide-react";
 import type{TodoListProps} from "../types.ts";
 import { useState } from "react";
 
@@ -27,58 +27,79 @@ const handleSave = (id: number ) => () => {
         setEditText("");
 
 }
+const handleToggle=(id:number) => () => {
+    dispatch({type: "COMPLETE", payload:id})
+
+}
 
 
-    return(
+    return (
         <>
             <ul className="space-y-2">
-                {todos.map(
-                todo => (
-                <li key={todo.id} className="flex items-center justify-between bg-gray-100 p-2 rounded">
-                    { editId === todo.id ? (
-                        <>
-
-                            <div className="flex flex-1 gap-2">
-                                <input
-                                    type="text"
-                                    value={editText} className="border rounded p-1 flex-1"
-                                    onChange={(e) => setEditText(e.target.value)}
-                                />
-                                <button
-                                    onClick={handleSave(todo.id)}
-                                    className="text-cf-gray">
-                                    <Save size={18}/>
-                                </button>
-
-                                <button onClick={handleCancel} className="text-cf-dark-red ">
-                                    <X size={18} />
-                                </button>
-                            </div>
-
-                        </>
-                    ) :  (
-                        <>
-                            <span>{todo.text}</span>
-                            <div className="flex gap-2">
-                                <button
-                                    onClick={handleEdit(todo.id, todo.text)}
-                                    className="text-cf-gray">
-                                    <Edit size={18}/>
-                                </button>
-
-                                <button onClick={handleDelete(todo.id)} className="text-cf-dark-red ">
-                                    <Trash2 size={18} />
-                                </button>
-                            </div>
-
-                        </>
-
-                    )
-                    }
-                </li>
+                {todos.map(todo => (
+                    <li key={todo.id}
+                        className={`flex items-center justify-between bg-gray-100 p-2 rounded
+             ${todo.completed ? "opacity-60 line-through" : ""}`}
+                    >
+                        { editId === todo.id ? (
+                            <>
+                                <div className="flex flex-1 gap-2">
+                                    <input
+                                        type="text"
+                                        value={editText}
+                                        onChange={(e) => setEditText(e.target.value)}
+                                        className="flex-1 border rounded p-1"
+                                    />
+                                    <button
+                                        onClick={handleSave(todo.id)}
+                                        className="text-cf-gray"
+                                    >
+                                        <Save size={18}/>
+                                    </button>
+                                    <button
+                                        onClick={handleCancel}
+                                        className="text-cf-dark-red"
+                                    >
+                                        <X size={18}/>
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex items-center gap-2 flex-1">
+                                    <button
+                                        className="text-green-500"
+                                        onClick={handleToggle(todo.id)}
+                                    >
+                                        {todo.completed ? (
+                                            <CheckSquare size={18}/>
+                                        ): (
+                                            <Square size={18}/>
+                                        )}
+                                    </button>
+                                    <span>{todo.text}</span>
+                                </div>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={handleEdit(todo.id, todo.text)}
+                                        className="text-cf-gray"
+                                    >
+                                        <Edit size={18}/>
+                                    </button>
+                                    <button
+                                        onClick={handleDelete(todo.id)}
+                                        className="text-cf-dark-red"
+                                    >
+                                        <Trash2 size={18}/>
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </li>
                 ))}
             </ul>
         </>
     )
 }
+
 export default TodoList
