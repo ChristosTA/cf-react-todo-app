@@ -1,8 +1,11 @@
-import {useState} from "react";
+import { useState } from "react";
 import type {TodoFormProps} from "../types.ts";
 
-const TodoForm = ({ dispatch }:TodoFormProps) => {
+const TodoForm = ({ dispatch, inputRef }:TodoFormProps) => {
+
     const [text, setText] = useState('')
+
+    // const inputRef = useRef<HTMLInputElement>(null)
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value)
@@ -13,9 +16,12 @@ const TodoForm = ({ dispatch }:TodoFormProps) => {
         if (text.trim() !== "") {
             dispatch({type: "ADD", payload: text});
             setText("");
+            inputRef.current?.focus()
         }
 
     }
+
+
     return (
         <>
             <form
@@ -23,6 +29,7 @@ const TodoForm = ({ dispatch }:TodoFormProps) => {
                 className="flex gap-4 mb-4 "
             >
                 <input
+                    ref={inputRef}
                     className="flex-1 border p-2 rounded "
                     type="text"
                     value={text}

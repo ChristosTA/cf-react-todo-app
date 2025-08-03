@@ -3,7 +3,7 @@ import type{TodoListProps} from "../types.ts";
 import { useState } from "react";
 
 
-const TodoList = ({todos, dispatch}:TodoListProps) => {
+const TodoList = ({todos, dispatch, inputRef}:TodoListProps) => {
 const [editId, setEditId] = useState<number|null>(null);
 const [editText, setEditText] = useState("");
 
@@ -19,16 +19,19 @@ const handleEdit = (id:number , text:string ) =>() => {
 const handleCancel = () => {
         setEditId(null);
         setEditText("");
+        inputRef.current?.focus()
 }
 
 const handleSave = (id: number ) => () => {
         dispatch({type: "EDIT", payload: {id,   newText: editText}})
         setEditId(null);
         setEditText("");
+        inputRef.current?.focus()
 
 }
 const handleToggle=(id:number) => () => {
     dispatch({type: "COMPLETE", payload:id})
+
 }
 
 
@@ -46,6 +49,7 @@ const handleToggle=(id:number) => () => {
                             <>
                                 <div className="flex flex-1 gap-2">
                                     <input
+                                        ref={inputRef}
                                         type="text"
                                         value={editText}
                                         onChange={(e) => setEditText(e.target.value)}

@@ -12,11 +12,13 @@ export type Action =
     | {type: "CLEAR_ALL"};
 
 export type TodoFormProps = {
-    dispatch: React.Dispatch<Action>
+    dispatch: React.Dispatch<Action>;
+    inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
 export type TodoListProps = {
     todos: TodoProps[];
     dispatch: React.Dispatch<Action>;
+    inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
