@@ -19,14 +19,18 @@ const handleEdit = (id:number , text:string ) =>() => {
 const handleCancel = () => {
         setEditId(null);
         setEditText("");
+        setTimeout(() => {
         inputRef.current?.focus()
+        }, 0);
 }
 
 const handleSave = (id: number ) => () => {
         dispatch({type: "EDIT", payload: {id,   newText: editText}})
         setEditId(null);
         setEditText("");
+        setTimeout(() => {
         inputRef.current?.focus()
+        }, 0);
 
 }
 const handleToggle=(id:number) => () => {
@@ -49,7 +53,6 @@ const handleToggle=(id:number) => () => {
                             <>
                                 <div className="flex flex-1 gap-2">
                                     <input
-                                        ref={inputRef}
                                         type="text"
                                         value={editText}
                                         onChange={(e) => setEditText(e.target.value)}
